@@ -41,7 +41,7 @@ app.post("/books", (req, res) => {
 	}
 
 	const newBook = {
-		id: books.length + 1,
+		id: books[books.length - 1]?.id + 1,
 		title,
 		author,
 	};
@@ -50,13 +50,9 @@ app.post("/books", (req, res) => {
 });
 
 app.put("/books/:id", (req, res) => {
-	if (!req.params.id) {
-		return res.status(400).json({ message: "Könyv ID kötelező!" });
-	}
-
 	const bookIndex = books.findIndex((b) => b.id === parseInt(req.params.id));
 
-	if (!bookIndex) {
+	if (bookIndex == -1) {
 		return res.status(404).json({ message: "Könyv nem található" });
 	}
 
@@ -69,10 +65,6 @@ app.put("/books/:id", (req, res) => {
 });
 
 app.delete("/books/:id", (req, res) => {
-	if (!req.params.id) {
-		return res.status(400).json({ message: "Könyv ID kötelező!" });
-	}
-
 	const bookIndex = books.findIndex((b) => b.id === parseInt(req.params.id));
 
 	if (bookIndex === -1) {
@@ -80,7 +72,7 @@ app.delete("/books/:id", (req, res) => {
 	}
 
 	books.splice(bookIndex, 1);
-	res.status(204).json({ message: "Könyv törölve" });
+	res.status(204);
 });
 
 app.listen(5500, () => {
