@@ -22,10 +22,6 @@ app.get("/books", (req, res) => {
 });
 
 app.get("/books/:id", (req, res) => {
-	if (!req.params.id) {
-		return res.status(400).json({ message: "Könyv ID kötelező!" });
-	}
-
 	const book = books.find((b) => b.id === parseInt(req.params.id));
 	if (!book) {
 		return res.status(404).json({ message: "Könyv nem található" });
